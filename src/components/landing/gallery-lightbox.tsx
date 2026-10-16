@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { t } from "@/data/program-content";
 import type { GalleryItem, Locale } from "@/types/program";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -44,13 +42,13 @@ export function GalleryLightbox({
       }}
     >
       {activeItem && (
-        <DialogContent className="max-w-4xl border-white/80 bg-white p-4 sm:p-6 dark:border-slate-700/80 dark:bg-slate-950/95">
+        <DialogContent className="max-w-4xl gap-4 rounded-[var(--radius-xl)] border-[var(--line)] bg-[var(--surface-raised)] p-4 sm:max-w-4xl sm:p-6">
           <DialogTitle className="sr-only">{t(activeItem.title, locale)}</DialogTitle>
           <DialogDescription className="sr-only">
             {t(activeItem.alt, locale)}
           </DialogDescription>
 
-          <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-900">
+          <div className="relative overflow-hidden rounded-[var(--radius-lg)] bg-[var(--surface-soft)]">
             <Image
               src={activeItem.src}
               alt={t(activeItem.alt, locale)}
@@ -62,28 +60,30 @@ export function GalleryLightbox({
           </div>
 
           <div className="flex items-center justify-between gap-3">
-            <p className="text-sm font-medium text-slate-600 sm:text-base dark:text-slate-300">
+            <p className="ts-small">
               {t(activeItem.title, locale)}
             </p>
             <div className="flex gap-2">
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                size="icon-sm"
-                className="rounded-full"
+                className="lp-icon-btn"
                 onClick={() => move("prev")}
+                aria-label={locale === "id" ? "Foto sebelumnya" : "Previous photo"}
               >
-                <ChevronLeft />
-              </Button>
-              <Button
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 5l-7 7 7 7" />
+                </svg>
+              </button>
+              <button
                 type="button"
-                variant="outline"
-                size="icon-sm"
-                className="rounded-full"
+                className="lp-icon-btn"
                 onClick={() => move("next")}
+                aria-label={locale === "id" ? "Foto berikutnya" : "Next photo"}
               >
-                <ChevronRight />
-              </Button>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           </div>
         </DialogContent>

@@ -16,6 +16,12 @@ export interface HeroHighlight {
   label: LocalizedText;
 }
 
+export interface HeroFact {
+  id: string;
+  value: LocalizedText;
+  label: LocalizedText;
+}
+
 export interface AboutHighlight {
   id: string;
   title: LocalizedText;
@@ -32,6 +38,8 @@ export interface IncomeMetric {
   id: string;
   label: LocalizedText;
   value: number;
+  /** Shown as the stat figure. Words, not invented amounts. */
+  stat: LocalizedText;
   helper: LocalizedText;
 }
 
@@ -96,6 +104,7 @@ export interface ProgramContent {
     primaryCta: LocalizedText;
     secondaryCta: LocalizedText;
     highlights: HeroHighlight[];
+    facts: HeroFact[];
   };
   about: {
     eyebrow: LocalizedText;

@@ -1,16 +1,10 @@
 "use client";
 
-import { t } from "@/data/program-content";
+import { contact, t } from "@/data/program-content";
 import type { Locale, ProgramContent } from "@/types/program";
+import { ArrowIcon } from "@/components/brand/icons";
 import { FadeInUp } from "@/components/landing/motion";
-import { SectionShell } from "@/components/landing/section-shell";
-import { ClientOnly } from "@/components/ui/client-only";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { SectionHead, SectionShell } from "@/components/landing/section-shell";
 
 interface FaqSectionProps {
   locale: Locale;
@@ -19,46 +13,52 @@ interface FaqSectionProps {
 
 export function FaqSection({ locale, content }: FaqSectionProps) {
   return (
-    <SectionShell
-      id="faq"
-      eyebrow={t(content.eyebrow, locale)}
-      title={t(content.title, locale)}
-      description={t(content.description, locale)}
-      contentClassName="mt-10 sm:mt-12"
-    >
-      <FadeInUp>
-        <div className="rounded-3xl border border-slate-200/70 bg-white/95 p-4 shadow-sm sm:p-8 dark:border-slate-700/80 dark:bg-slate-900/85 dark:shadow-none">
-          <ClientOnly
-            fallback={
-              <div className="divide-y divide-slate-200/70 dark:divide-slate-700/80">
-                {content.items.map((faqItem) => (
-                  <div key={faqItem.id} className="py-4">
-                    <p className="text-left text-sm font-semibold text-slate-900 sm:text-base dark:text-slate-100">
-                      {t(faqItem.question, locale)}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base dark:text-slate-300">
-                      {t(faqItem.answer, locale)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            }
-          >
-            <Accordion type="single" collapsible className="w-full">
-              {content.items.map((faqItem) => (
-                <AccordionItem key={faqItem.id} value={faqItem.id}>
-                  <AccordionTrigger className="text-left text-sm font-semibold text-slate-900 hover:no-underline sm:text-base dark:text-slate-100">
-                    {t(faqItem.question, locale)}
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-5 text-sm leading-relaxed text-slate-600 sm:text-base dark:text-slate-300">
-                    {t(faqItem.answer, locale)}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </ClientOnly>
+    <SectionShell id="faq" soft>
+      <div className="lp-faq">
+        <div className="lp-faq__aside">
+          <SectionHead
+            eyebrow={t(content.eyebrow, locale)}
+            title={t(content.title, locale)}
+            description={t(content.description, locale)}
+          />
+
+          <div className="lp-help">
+            <h3 className="ts-h3">
+              {locale === "id" ? "Masih ada pertanyaan?" : "Still have questions?"}
+            </h3>
+            <p className="ts-small">
+              {locale === "id"
+                ? "Tanya langsung ke tim program lewat WhatsApp."
+                : "Ask the program team directly on WhatsApp."}
+            </p>
+            <a className="ts-btn ts-btn--secondary ts-btn--sm" href={contact.whatsappLink} target="_blank" rel="noreferrer">
+              {locale === "id" ? "Chat WhatsApp" : "Chat on WhatsApp"}
+              <ArrowIcon />
+            </a>
+          </div>
         </div>
-      </FadeInUp>
+
+        <FadeInUp>
+          {/* Native details/summary: works without JS, the first item starts open. */}
+          <div className="ts-accordion">
+            {content.items.map((faqItem, index) => (
+              <details key={faqItem.id} className="ts-accordion__item" open={index === 0}>
+                <summary className="ts-accordion__header">
+                  {t(faqItem.question, locale)}
+                  <span className="ts-accordion__icon" aria-hidden="true">
+                    <svg viewBox="0 0 12 12">
+                      <path d="M6 1v10M1 6h10" />
+                    </svg>
+                  </span>
+                </summary>
+                <div className="ts-accordion__area">
+                  <p>{t(faqItem.answer, locale)}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </FadeInUp>
+      </div>
     </SectionShell>
   );
 }

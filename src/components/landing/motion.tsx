@@ -2,7 +2,8 @@
 
 import { LazyMotion, domAnimation, m, useReducedMotion } from "framer-motion";
 
-const easing = [0.22, 1, 0.36, 1] as const;
+// Alir — the Topstar curve for movement (formation changes, reveals, card lifts).
+const easing = [0.45, 0, 0.2, 1] as const;
 
 interface MotionProviderProps {
   children: React.ReactNode;
@@ -35,7 +36,7 @@ export function FadeInUp({
   children,
   className,
   delay = 0,
-  distance = 24,
+  distance = 16,
 }: FadeInUpProps) {
   const reducedMotion = useReducedMotion();
 
@@ -49,7 +50,7 @@ export function FadeInUp({
       initial={{ opacity: 0, y: distance }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.22 }}
-      transition={{ duration: 0.6, ease: easing, delay }}
+      transition={{ duration: 0.9, ease: easing, delay }}
     >
       {children}
     </m.div>
@@ -59,7 +60,7 @@ export function FadeInUp({
 export function StaggerGroup({
   children,
   className,
-  stagger = 0.08,
+  stagger = 0.06,
   delay = 0,
 }: StaggerGroupProps) {
   const reducedMotion = useReducedMotion();
@@ -100,11 +101,11 @@ export function StaggerItem({ children, className }: StaggerItemProps) {
     <m.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y: 20 },
+        hidden: { opacity: 0, y: 16 },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.5, ease: easing },
+          transition: { duration: 0.8, ease: easing },
         },
       }}
     >

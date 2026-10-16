@@ -11,11 +11,6 @@ export const programContent: ProgramContent = {
   },
   nav: [
     {
-      id: "nav-hero",
-      href: "#hero",
-      label: { id: "Beranda", en: "Home" },
-    },
-    {
       id: "nav-about",
       href: "#tentang",
       label: { id: "Program", en: "Program" },
@@ -55,32 +50,27 @@ export const programContent: ProgramContent = {
       href: "#faq",
       label: { id: "FAQ", en: "FAQ" },
     },
-    {
-      id: "nav-register",
-      href: "#daftar",
-      label: { id: "Daftar", en: "Register" },
-    },
   ],
   hero: {
     badge: {
-      id: "Content Creator Development Program",
-      en: "Content Creator Development Program",
+      id: "Program resmi Universitas STEKOM",
+      en: "Official Universitas STEKOM program",
     },
     title: {
       id: "Jadi Duta Teladan Universitas STEKOM.",
       en: "Become Universitas STEKOM's Exemplary Ambassador.",
     },
     subtitle: {
-      id: "Bangun personal branding yang kuat. Kuasai strategi konten, tingkatkan skill digital, dan kembangkan potensimu. Dapatkan uang saku rutin plus bonus performa. Di sini kamu berkembang sekaligus dibayar atas progres & kontribusimu.",
-      en: "Build a strong personal brand. Master content strategy, sharpen digital skills, and grow your potential. Earn regular stipends plus performance bonuses. Here, you grow while getting paid for your progress and contributions.",
+      id: "Bangun personal branding, asah skill konten bersama mentor, dan dapatkan uang saku serta bonus performa selama bertugas.",
+      en: "Build your personal brand, sharpen your content skills with mentors, and earn a stipend plus performance bonuses while you serve.",
     },
     primaryCta: {
-      id: "Daftar Sekarang",
-      en: "Register Now",
+      id: "Daftar sekarang",
+      en: "Register now",
     },
     secondaryCta: {
-      id: "Pelajari Program",
-      en: "Explore Program",
+      id: "Pelajari program",
+      en: "Explore the program",
     },
     highlights: [
       {
@@ -110,6 +100,23 @@ export const programContent: ProgramContent = {
           id: "Program Resmi Universitas STEKOM",
           en: "Official Universitas STEKOM Program",
         },
+      },
+    ],
+    facts: [
+      {
+        id: "hero-fact-1",
+        value: { id: "Gratis", en: "Free" },
+        label: { id: "Tanpa biaya daftar", en: "No registration fee" },
+      },
+      {
+        id: "hero-fact-2",
+        value: { id: "5 tahap", en: "5 steps" },
+        label: { id: "Seleksi sampai bertugas", en: "From selection to duty" },
+      },
+      {
+        id: "hero-fact-3",
+        value: { id: "Sertifikat", en: "Certificate" },
+        label: { id: "Resmi dari kampus", en: "Official from campus" },
       },
     ],
   },
@@ -152,8 +159,8 @@ export const programContent: ProgramContent = {
       {
         id: "about-highlight-3",
         title: {
-          id: "Pelatihan + Dibayar",
-          en: "Training + Paid",
+          id: "Pelatihan dan dibayar",
+          en: "Training and paid",
         },
         description: {
           id: "Belajar skill digital tanpa biaya, sambil berpeluang mendapat uang saku dan bonus performa.",
@@ -280,6 +287,7 @@ export const programContent: ProgramContent = {
           en: "Regular stipend",
         },
         value: 0,
+        stat: { id: "Rutin", en: "Regular" },
         helper: {
           id: "Untuk peserta aktif sesuai evaluasi periode program",
           en: "For active participants based on each program-period evaluation",
@@ -292,6 +300,7 @@ export const programContent: ProgramContent = {
           en: "Content performance bonus",
         },
         value: 0,
+        stat: { id: "+Bonus", en: "+Bonus" },
         helper: {
           id: "Mengikuti kualitas output dan capaian engagement",
           en: "Based on output quality and engagement achievements",
@@ -304,6 +313,7 @@ export const programContent: ProgramContent = {
           en: "Top creator reward",
         },
         value: 0,
+        stat: { id: "Reward", en: "Reward" },
         helper: {
           id: "Apresiasi untuk kontribusi konten terbaik",
           en: "Recognition for the strongest content contribution",
@@ -316,6 +326,7 @@ export const programContent: ProgramContent = {
           en: "Additional earning potential",
         },
         value: 0,
+        stat: { id: "Terbuka", en: "Open" },
         helper: {
           id: "Terbuka seiring konsistensi dan perkembangan performa",
           en: "Opens up as your consistency and performance improve",
@@ -443,7 +454,7 @@ export const programContent: ProgramContent = {
     steps: [
       {
         id: "timeline-1",
-        title: { id: "Daftar Online", en: "Online Registration" },
+        title: { id: "Daftar online", en: "Online registration" },
         description: {
           id: "Isi data singkat dan motivasi bergabung.",
           en: "Submit your basic details and motivation.",
@@ -451,7 +462,7 @@ export const programContent: ProgramContent = {
       },
       {
         id: "timeline-2",
-        title: { id: "Seleksi & Interview", en: "Selection & Interview" },
+        title: { id: "Seleksi & wawancara", en: "Selection & interview" },
         description: {
           id: "Kurasi kandidat berdasarkan potensi dan komitmen.",
           en: "Candidates are shortlisted by potential and commitment.",
@@ -460,8 +471,8 @@ export const programContent: ProgramContent = {
       {
         id: "timeline-3",
         title: {
-          id: "Pembekalan & Pelantikan",
-          en: "Briefing & Inauguration",
+          id: "Pembekalan & pelantikan",
+          en: "Briefing & inauguration",
         },
         description: {
           id: "Pembekalan singkat serta prosesi pelantikan dan penyematan gelar Duta Teladan kepada peserta terpilih.",
@@ -470,7 +481,7 @@ export const programContent: ProgramContent = {
       },
       {
         id: "timeline-4",
-        title: { id: "Aktif sebagai Duta", en: "Active as Ambassador" },
+        title: { id: "Aktif sebagai Duta", en: "Active as ambassador" },
         description: {
           id: "Mengikuti mentoring Content Creator serta menjalankan tugas mingguan (repost konten) dan tugas bulanan (membuat konten).",
           en: "Join content creator mentoring and complete weekly tasks (reposting content) plus monthly tasks (creating content).",
@@ -479,8 +490,8 @@ export const programContent: ProgramContent = {
       {
         id: "timeline-5",
         title: {
-          id: "Uang Saku & Bonus Berjalan",
-          en: "Stipend & Bonus Ongoing",
+          id: "Uang saku & bonus",
+          en: "Stipend & bonus",
         },
         description: {
           id: "Konsistensi repost/tips mingguan dan hasil konten bulanan dievaluasi berkala untuk menentukan apresiasi dan bonus.",
@@ -706,7 +717,7 @@ export const programContent: ProgramContent = {
       en: "Most frequently asked questions by applicants.",
     },
     description: {
-      id: "Informasi inti program untuk membantu Anda mengambil keputusan.",
+      id: "Informasi inti program untuk membantu kamu mengambil keputusan.",
       en: "Core information to help you decide quickly and confidently.",
     },
     items: [
@@ -788,8 +799,8 @@ export const programContent: ProgramContent = {
       en: "Build your name. Build your skills. Earn while you grow.",
     },
     button: {
-      id: "Daftar Sekarang",
-      en: "Register Now",
+      id: "Daftar sekarang",
+      en: "Register now",
     },
   },
   form: {
@@ -816,7 +827,7 @@ export const programContent: ProgramContent = {
       whatsapp: { id: "Contoh 08xxxxxxxxxx", en: "Example 08xxxxxxxxxx" },
       socialHandle: { id: "Contoh @username", en: "Example @username" },
       motivation: {
-        id: "Ceritakan alasan Anda bergabung (opsional)",
+        id: "Ceritakan alasan kamu bergabung (opsional)",
         en: "Tell us why you want to join (optional)",
       },
     },
@@ -833,7 +844,7 @@ export const programContent: ProgramContent = {
       en: "Registration submitted successfully.",
     },
     successDescription: {
-      id: "Tim program akan menghubungi Anda untuk tahap seleksi berikutnya.",
+      id: "Tim program akan menghubungi kamu untuk tahap seleksi berikutnya.",
       en: "The program team will contact you for the next selection stage.",
     },
     errors: {
@@ -847,4 +858,12 @@ export const programContent: ProgramContent = {
       },
     },
   },
+};
+
+export const contact = {
+  whatsappNumber: "628888555591",
+  whatsappDisplay: "+62 8888-5555-91",
+  whatsappLink: "https://wa.me/628888555591",
+  instagramLink: "https://www.instagram.com/dutateladanunivstekom/",
+  instagramHandle: "@dutateladanunivstekom",
 };

@@ -1,0 +1,95 @@
+/* Topstar — tokens.css, copied from topstar-design-system/tokens.css.
+   Only change: --font-sans reads the next/font variable first. */
+:root {
+  --surface: #f8fafc;
+  --surface-soft: #eef2f7;
+  --surface-raised: #ffffff;
+  --line: #e2e8f0;
+  --ink: #0f172a;
+  --ink-muted: #475569;
+  --ink-subtle: #64748b;
+  --navy: #0f172a;
+  --on-dark: #ffffff;
+  --on-dark-muted: #ffffffb8;
+  --biru: #2563eb;
+  --biru-hover: #1d4ed8;
+  --link: #1d4ed8;
+  --kuning: #f59e0b;
+  --pink: #ec4899;
+  --pink-deep: #be185d;
+  --hijau: #10b981;
+  --ungu: #8b5cf6;
+  --ungu-deep: #6d28d9;
+  --kuning-soft: #fef3c7;
+  --pink-soft: #fce7f3;
+  --overlay: #0f172a99;
+  --focus-ring: #2563eb;
+  --font-sans: var(--font-nunito), "Nunito", ui-rounded, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-20: 80px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+  --radius-pill: 9999px;
+  --shadow-sm: 0 1px 2px 0 rgba(15,23,42,0.06);
+  --shadow-md: 0 2px 4px 0 rgba(15,23,42,0.05), 0 12px 28px -8px rgba(15,23,42,0.18);
+  --shadow-lg: 0 4px 8px 0 rgba(15,23,42,0.06), 0 24px 56px -12px rgba(15,23,42,0.26);
+  --container: 1200px;
+  --measure: 68ch;
+  --nav-height: 72px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface: #0f172a;
+    --surface-soft: #1c2842;
+    --surface-raised: #162036;
+    --line: #27344d;
+    --ink: #f1f5f9;
+    --ink-muted: #a7b3c6;
+    --ink-subtle: #8391a7;
+    --navy: #1e2a45;
+    --biru: #3b82f6;
+    --biru-hover: #2563eb;
+    --link: #93c5fd;
+    --kuning: #fbbf24;
+    --pink: #f472b6;
+    --pink-deep: #db2777;
+    --hijau: #34d399;
+    --ungu: #a78bfa;
+    --ungu-deep: #7c3aed;
+    --kuning-soft: #3b2f12;
+    --pink-soft: #3a1d33;
+    --overlay: #0f172acc;
+    --focus-ring: #3b82f6;
+  }
+}
+:root[data-theme="dark"] {
+  --surface: #0f172a;
+  --surface-soft: #1c2842;
+  --surface-raised: #162036;
+  --line: #27344d;
+  --ink: #f1f5f9;
+  --ink-muted: #a7b3c6;
+  --ink-subtle: #8391a7;
+  --navy: #1e2a45;
+  --biru: #3b82f6;
+  --biru-hover: #2563eb;
+  --link: #93c5fd;
+  --kuning: #fbbf24;
+  --pink: #f472b6;
+  --pink-deep: #db2777;
+  --hijau: #34d399;
+  --ungu: #a78bfa;
+  --ungu-deep: #7c3aed;
+  --kuning-soft: #3b2f12;
+  --pink-soft: #3a1d33;
+  --overlay: #0f172acc;
+  --focus-ring: #3b82f6;
+}

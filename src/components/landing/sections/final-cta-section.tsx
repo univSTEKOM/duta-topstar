@@ -1,83 +1,63 @@
 "use client";
 
-import Link from "next/link";
-import { m, useReducedMotion } from "framer-motion";
-
 import { t } from "@/data/program-content";
 import type { Locale, ProgramContent } from "@/types/program";
+import { PlayTriangle } from "@/components/brand/icons";
 import { FadeInUp } from "@/components/landing/motion";
-import { SectionShell } from "@/components/landing/section-shell";
 import { ClientOnly } from "@/components/ui/client-only";
-import { Button } from "@/components/ui/button";
 import { RegistrationForm } from "@/components/landing/registration-form";
 
 interface FinalCtaSectionProps {
   locale: Locale;
   ctaContent: ProgramContent["finalCta"];
   formContent: ProgramContent["form"];
+  facts: ProgramContent["hero"]["facts"];
 }
 
 export function FinalCtaSection({
   locale,
   ctaContent,
   formContent,
+  facts,
 }: FinalCtaSectionProps) {
-  const reducedMotion = useReducedMotion();
-
   return (
-    <SectionShell id="daftar" className="pb-24 sm:pb-28" contentClassName="mt-0">
-      <div className="overflow-hidden rounded-3xl border border-blue-100/60 bg-[linear-gradient(145deg,#ebf4ff_0%,#e7f0ff_36%,#ffdff0_100%)] p-5 shadow-xl shadow-blue-100/70 sm:p-8 lg:p-10 dark:border-slate-700/70 dark:bg-[linear-gradient(145deg,#141f36_0%,#192540_36%,#291d3a_100%)] dark:shadow-none">
-        <FadeInUp className="mx-auto max-w-3xl text-center">
-          <h2 className="text-balance text-2xl font-extrabold text-slate-900 sm:text-4xl lg:text-5xl dark:text-slate-100">
-            {t(ctaContent.title, locale)}
-          </h2>
-          <p className="mt-3 text-pretty text-sm text-slate-700 sm:mt-4 sm:text-lg dark:text-slate-300">
-            {t(ctaContent.subtitle, locale)}
-          </p>
+    <section id="daftar" className="ts-section">
+      <div className="ts-container">
+        <FadeInUp>
+          {/* One navy stage: the closing call and the registration panel together. */}
+          <div className="ts-cta lp-cta">
+            <div className="ts-cta__art" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="ts-cta__copy">
+              <h2 className="ts-h1">{t(ctaContent.title, locale)}</h2>
+              <p className="ts-lead">{t(ctaContent.subtitle, locale)}</p>
+              <ul className="lp-cta__points">
+                {facts.map((fact) => (
+                  <li key={fact.id}>
+                    <PlayTriangle colour="kuning" />
+                    {t(fact.value, locale)} · {t(fact.label, locale).toLowerCase()}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <m.div
-            className="mt-7"
-            animate={
-              reducedMotion
-                ? undefined
-                : {
-                    y: [0, -3, 0],
-                  }
-            }
-            transition={
-              reducedMotion
-                ? undefined
-                : {
-                    duration: 2.6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }
-            }
-          >
-            <Button
-              asChild
-              size="lg"
-              className="w-full rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground hover:bg-primary/90 sm:w-auto"
-            >
-              <Link href="#registration-form">{t(ctaContent.button, locale)}</Link>
-            </Button>
-          </m.div>
+            <div id="registration-form" className="relative z-1 scroll-mt-(--nav-height)">
+              <ClientOnly
+                fallback={
+                  <div className="lp-register">
+                    <p className="ts-small">Memuat formulir pendaftaran…</p>
+                  </div>
+                }
+              >
+                <RegistrationForm locale={locale} formContent={formContent} />
+              </ClientOnly>
+            </div>
+          </div>
         </FadeInUp>
-
-        <div id="registration-form" className="mt-8 sm:mt-10">
-          <ClientOnly
-            fallback={
-              <div className="rounded-3xl border border-white/70 bg-white/90 p-4 shadow-xl shadow-slate-300/30 sm:p-8 dark:border-slate-700/80 dark:bg-slate-900/85 dark:shadow-none">
-                <p className="text-sm font-semibold text-slate-700 sm:text-base dark:text-slate-200">
-                  Memuat formulir pendaftaran...
-                </p>
-              </div>
-            }
-          >
-            <RegistrationForm locale={locale} formContent={formContent} />
-          </ClientOnly>
-        </div>
       </div>
-    </SectionShell>
+    </section>
   );
 }

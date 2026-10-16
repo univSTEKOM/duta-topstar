@@ -1,25 +1,22 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Sora } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+// Topstar uses one family: Nunito. The variable sits on <html> so tokens on :root can read it.
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["500", "600", "700", "800", "900"],
 });
 
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-});
+// Applies a saved light/dark choice before first paint; without one, tokens follow the system.
+const themeScript = `try{var t=localStorage.getItem("duta-teladan-theme");if(t==="light"||t==="dark"){document.documentElement.dataset.theme=t;document.documentElement.classList.toggle("dark",t==="dark")}}catch(e){}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dutateladan-stekom.vercel.app"),
   icons: {
-    icon: "/images/favicon.png",
-    shortcut: "/images/favicon.png",
-    apple: "/images/favicon.png",
+    icon: "/brand/topstar-app-icon.svg",
+    shortcut: "/brand/topstar-app-icon.svg",
   },
   title: {
     default: "Duta Teladan Universitas STEKOM",
@@ -50,8 +47,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
-      <body className={`${plusJakartaSans.variable} ${sora.variable} antialiased`}>
+    <html lang="id" className={nunito.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
         {children}
       </body>
     </html>

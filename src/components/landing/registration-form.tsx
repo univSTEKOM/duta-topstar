@@ -1,35 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Clock3,
-  Flame,
-  ImageUp,
-  Mail,
-  Music2,
-  School,
-  Trash2,
-  Users,
-  X,
-} from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { t } from "@/data/program-content";
 import type { Locale, ProgramContent } from "@/types/program";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { ArrowIcon, Icon } from "@/components/brand/icons";
+import { Pita } from "@/components/brand/mark";
+import { onOpenRegistration, setRegistrationReady } from "@/lib/registration";
 
 interface RegistrationFormProps {
   locale: Locale;
@@ -50,7 +34,7 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
       ? "Tersisa 30 orang lagi. Prioritas untuk pendaftar tercepat."
       : "Only 30 spots left. Priority goes to the fastest applicants.";
   const urgencyBadge =
-    locale === "id" ? "Rekrutmen Aktif" : "Active Recruitment";
+    locale === "id" ? "Rekrutmen aktif" : "Active recruitment";
   const remainingLabel = locale === "id" ? "Slot tersisa" : "spots left";
   const progressLabel =
     locale === "id" ? "Kuota batch hampir penuh" : "Batch quota is nearly full";
@@ -61,13 +45,13 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
   const registerLabel = t(formContent.submit, locale);
   const formTitle =
     locale === "id"
-      ? "LIST FIELDS FORM PENDAFTARAN"
-      : "REGISTRATION FORM FIELDS";
+      ? "Formulir pendaftaran"
+      : "Registration form";
   const formSubtitle =
     locale === "id"
-      ? "Pelatihan Content Creator - Duta Teladan Universitas STEKOM"
-      : "Content Creator Training - Duta Teladan Universitas STEKOM";
-  const submitLabel = locale === "id" ? "Kirim Pendaftaran" : "Submit Registration";
+      ? "Pelatihan content creator · Duta Teladan Universitas STEKOM"
+      : "Content creator training · Duta Teladan Universitas STEKOM";
+  const submitLabel = locale === "id" ? "Kirim pendaftaran" : "Submit registration";
   const submitSuccess =
     locale === "id"
       ? "Form berhasil dikirim. Tim kami akan segera menghubungi kamu."
@@ -77,7 +61,7 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
       ? "Terjadi kendala saat mengirim form. Coba lagi."
       : "There was a problem submitting the form. Please try again.";
   const submittingLabel =
-    locale === "id" ? "Mengirim..." : "Submitting...";
+    locale === "id" ? "Mengirim…" : "Submitting…";
   const formHint =
     locale === "id"
       ? "Pastikan data yang kamu isi valid dan dapat dihubungi."
@@ -134,7 +118,7 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
     {
       id: "fullName",
       number: "1",
-      label: locale === "id" ? "Nama Lengkap" : "Full Name",
+      label: locale === "id" ? "Nama lengkap" : "Full name",
       helper:
         locale === "id"
           ? "Tuliskan nama lengkap sesuai identitas."
@@ -144,12 +128,11 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
           ? "Contoh: Budi Santoso"
           : "Example: John Doe",
       type: "text",
-      icon: Users,
     },
     {
       id: "school",
       number: "2",
-      label: locale === "id" ? "Asal Sekolah / Instansi" : "School / Institution",
+      label: locale === "id" ? "Asal sekolah / instansi" : "School / institution",
       helper:
         locale === "id"
           ? "Contoh: SMKN 1 Surabaya."
@@ -159,12 +142,11 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
           ? "Masukkan asal sekolah atau instansi"
           : "Enter your school or institution",
       type: "text",
-      icon: School,
     },
     {
       id: "email",
       number: "3",
-      label: locale === "id" ? "Email Aktif" : "Active Email",
+      label: locale === "id" ? "Email aktif" : "Active email",
       helper:
         locale === "id"
           ? "Gunakan email aktif untuk menerima informasi terkait pelatihan."
@@ -174,12 +156,11 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
           ? "nama@email.com"
           : "name@email.com",
       type: "email",
-      icon: Mail,
     },
     {
       id: "whatsapp",
       number: "4",
-      label: locale === "id" ? "Nomor WhatsApp" : "WhatsApp Number",
+      label: locale === "id" ? "Nomor WhatsApp" : "WhatsApp number",
       helper:
         locale === "id"
           ? "Masukkan nomor WhatsApp aktif yang dapat dihubungi."
@@ -189,12 +170,11 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
           ? "Contoh: 08xxxxxxxxxx"
           : "Example: 08xxxxxxxxxx",
       type: "tel",
-      icon: Users,
     },
     {
       id: "tiktok",
       number: "5",
-      label: locale === "id" ? "Akun TikTok" : "TikTok Account",
+      label: locale === "id" ? "Akun TikTok" : "TikTok account",
       helper:
         locale === "id"
           ? "Tuliskan username atau link akun TikTok kamu."
@@ -204,24 +184,22 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
           ? "@username / https://tiktok.com/..."
           : "@username / https://tiktok.com/...",
       type: "text",
-      icon: Music2,
     },
     {
       id: "tiktokFollowers",
       number: "6",
-      label: locale === "id" ? "Jumlah Followers TikTok" : "TikTok Follower Count",
+      label: locale === "id" ? "Jumlah followers TikTok" : "TikTok follower count",
       helper:
         locale === "id"
           ? "Masukkan jumlah followers pada akun TikTok kamu."
           : "Enter the number of followers on your TikTok account.",
       placeholder: locale === "id" ? "Contoh: 1500" : "Example: 1500",
       type: "number",
-      icon: Users,
     },
     {
       id: "instagram",
       number: "7",
-      label: locale === "id" ? "Akun Instagram" : "Instagram Account",
+      label: locale === "id" ? "Akun Instagram" : "Instagram account",
       helper:
         locale === "id"
           ? "Tuliskan username atau link akun Instagram kamu."
@@ -231,21 +209,29 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
           ? "@username / https://instagram.com/..."
           : "@username / https://instagram.com/...",
       type: "text",
-      icon: Users,
     },
     {
       id: "instagramFollowers",
       number: "8",
-      label: locale === "id" ? "Jumlah Followers Instagram" : "Instagram Follower Count",
+      label: locale === "id" ? "Jumlah followers Instagram" : "Instagram follower count",
       helper:
         locale === "id"
           ? "Masukkan jumlah followers pada akun Instagram kamu."
           : "Enter the number of followers on your Instagram account.",
       placeholder: locale === "id" ? "Contoh: 1200" : "Example: 1200",
       type: "number",
-      icon: Users,
     },
   ] as const;
+
+  // Every "Daftar" button on the page opens this dialog directly once the form is mounted.
+  useEffect(() => {
+    setRegistrationReady(true);
+    const unsubscribe = onOpenRegistration(() => setIsDialogOpen(true));
+    return () => {
+      setRegistrationReady(false);
+      unsubscribe();
+    };
+  }, []);
 
   const handleOpenChange = (open: boolean) => {
     setIsDialogOpen(open);
@@ -365,363 +351,256 @@ export function RegistrationForm({ locale, formContent }: RegistrationFormProps)
   };
 
   return (
-    <div className="rounded-3xl border border-white/70 bg-white/90 p-4 shadow-xl shadow-slate-300/30 sm:p-8 dark:border-slate-700/80 dark:bg-slate-900/85 dark:shadow-none">
-      <div className="space-y-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-rose-700 dark:border-rose-400/35 dark:bg-rose-500/10 dark:text-rose-200">
-            <Flame className="size-3.5 animate-pulse" />
-            {urgencyTitle}
-          </span>
-          <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600 dark:border-slate-600/70 dark:bg-slate-800/70 dark:text-slate-200">
-            {urgencyBadge}
+    <div className="lp-register">
+      <div className="lp-register__tags">
+        <span className="ts-tag ts-tag--biru">{urgencyTitle}</span>
+        <span className="ts-tag">
+          <span className="ts-dot" />
+          {urgencyBadge}
+        </span>
+      </div>
+      <h3 className="ts-h2">{t(formContent.title, locale)}</h3>
+
+      <div className="lp-meter">
+        <div className="lp-meter__row">
+          <span>{urgencyDescription}</span>
+          <span className="shrink-0 text-right">
+            <b>30</b> {remainingLabel.toLowerCase()}
           </span>
         </div>
-
-        <h3 className="text-lg font-bold text-slate-900 sm:text-2xl dark:text-slate-100">
-          {t(formContent.title, locale)}
-        </h3>
-        <p className="text-sm text-slate-600 sm:text-base dark:text-slate-300">
-          {t(formContent.description, locale)}
-        </p>
+        <div
+          className="lp-meter__bar"
+          role="meter"
+          aria-label={progressLabel}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={70}
+        >
+          <span style={{ width: "70%" }} />
+        </div>
+        <span className="ts-caption">{progressLabel} · 70%</span>
       </div>
 
-      <div className="mt-5 space-y-4 sm:mt-6 sm:space-y-5">
-        <div className="rounded-2xl border border-rose-200/80 bg-gradient-to-r from-rose-50 via-white to-rose-50 px-4 py-4 text-rose-900 sm:p-5 dark:border-rose-400/30 dark:bg-[linear-gradient(120deg,rgba(244,63,94,0.14),rgba(15,23,42,0.5),rgba(251,113,133,0.14))] dark:text-rose-100">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="flex items-center gap-2 text-sm font-semibold sm:text-base">
-                <Users className="size-4 shrink-0" />
-                {urgencyDescription}
+      <Dialog open={isDialogOpen} onOpenChange={handleOpenChange}>
+        <DialogTrigger asChild>
+          <button type="button" className="ts-btn ts-btn--accent ts-btn--lg">
+            {registerLabel}
+            <ArrowIcon />
+          </button>
+        </DialogTrigger>
+
+        <DialogContent className="lp-dialog left-0 top-0 h-[100dvh] max-h-[100dvh] w-screen max-w-none translate-x-0 translate-y-0 gap-0 overflow-hidden rounded-none border-0 p-0 shadow-lg sm:left-1/2 sm:top-1/2 sm:h-auto sm:max-h-[92vh] sm:w-[calc(100%-1.5rem)] sm:max-w-4xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[var(--radius-xl)] sm:border">
+          <div className="h-[100dvh] overflow-y-auto sm:h-auto sm:max-h-[92vh]">
+            <div className="lp-dialog__head">
+              <p className="ts-overline">
+                <Pita />
+                {formSubtitle}
               </p>
-            </div>
+              <DialogTitle className="lp-dialog__title text-[28px] leading-[1.15] font-black max-sm:text-2xl">{formTitle}</DialogTitle>
+              <DialogDescription className="ts-small mt-1">{formHint}</DialogDescription>
 
-            <div className="w-full rounded-xl border border-rose-200 bg-white/90 px-3 py-2.5 text-center sm:w-auto sm:min-w-36 dark:border-rose-400/30 dark:bg-slate-900/65">
-              <p className="text-2xl font-extrabold leading-none text-rose-700 dark:text-rose-200">
-                30
-              </p>
-              <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-rose-700/80 dark:text-rose-200/80">
-                {remainingLabel}
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-4">
-            <div className="mb-1.5 flex items-center justify-between text-xs font-semibold text-rose-700/80 dark:text-rose-200/80">
-              <span>{progressLabel}</span>
-              <span>70%</span>
-            </div>
-            <div className="h-2.5 overflow-hidden rounded-full bg-rose-100 dark:bg-rose-200/20">
-              <div className="h-full w-[70%] rounded-full bg-gradient-to-r from-rose-500 to-orange-400" />
-            </div>
-          </div>
-        </div>
-
-        <Dialog open={isDialogOpen} onOpenChange={handleOpenChange}>
-          <DialogTrigger asChild>
-            <Button
-              type="button"
-              size="lg"
-              className={cn(
-                "group h-12 w-full rounded-full bg-slate-900 text-base font-semibold text-white shadow-lg shadow-slate-900/25 transition hover:-translate-y-0.5 hover:bg-slate-800 dark:bg-primary dark:text-primary-foreground dark:hover:bg-primary/90",
-                "focus-visible:ring-offset-0",
-              )}
-            >
-              <span className="inline-flex items-center gap-2">
-                {registerLabel}
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-              </span>
-            </Button>
-          </DialogTrigger>
-
-          <DialogContent className="left-0 top-0 h-[100dvh] w-screen max-h-[100dvh] max-w-none translate-x-0 translate-y-0 overflow-hidden rounded-none border-0 bg-white p-0 shadow-2xl sm:left-1/2 sm:top-1/2 sm:h-auto sm:w-[calc(100%-1.5rem)] sm:max-h-[92vh] sm:max-w-4xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-xl sm:border sm:border-slate-200/80 dark:bg-slate-900 sm:dark:border-slate-700/80">
-            <div className="h-[100dvh] overflow-y-auto sm:h-auto sm:max-h-[92vh]">
-              <div className="border-b border-slate-200/70 bg-[linear-gradient(160deg,#f8fbff_0%,#f4f8ff_45%,#fff4f8_100%)] px-4 pb-4 pt-14 sm:px-7 sm:py-6 dark:border-slate-700/70 dark:bg-[linear-gradient(160deg,#15213a_0%,#1a2844_45%,#2b203d_100%)]">
-                <DialogHeader className="gap-2">
-                  <DialogTitle className="text-left text-base font-extrabold uppercase tracking-[0.08em] text-slate-900 dark:text-slate-100">
-                    {formTitle}
-                  </DialogTitle>
-                  <DialogDescription className="text-left text-sm font-semibold text-slate-700 dark:text-slate-300">
-                    {formSubtitle}
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                  <div className="rounded-xl border border-white/80 bg-white/90 px-3 py-2 text-center dark:border-slate-700/80 dark:bg-slate-900/70">
-                    <p className="text-xl font-extrabold text-slate-900 dark:text-slate-100">10</p>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-600 dark:text-slate-300">
-                      {locale === "id" ? "Field Wajib" : "Required Fields"}
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-white/80 bg-white/90 px-3 py-2 text-center dark:border-slate-700/80 dark:bg-slate-900/70">
-                    <p className="text-xl font-extrabold text-rose-700 dark:text-rose-300">Batch 2</p>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-600 dark:text-slate-300">
-                      {locale === "id" ? "Gelombang Aktif" : "Active Wave"}
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-white/80 bg-white/90 px-3 py-2 text-center dark:border-slate-700/80 dark:bg-slate-900/70">
-                    <p className="text-xl font-extrabold text-rose-700 dark:text-rose-300">30</p>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-600 dark:text-slate-300">
-                      {remainingLabel}
-                    </p>
-                  </div>
+              <div className="lp-dialog__facts">
+                <div>
+                  <b>10</b>
+                  <span className="ts-caption">{locale === "id" ? "Isian wajib" : "Required fields"}</span>
+                </div>
+                <div>
+                  <b>Batch 2</b>
+                  <span className="ts-caption">{locale === "id" ? "Gelombang aktif" : "Active wave"}</span>
+                </div>
+                <div>
+                  <b>30</b>
+                  <span className="ts-caption">{remainingLabel}</span>
                 </div>
               </div>
+            </div>
 
-              <form className="space-y-5 px-4 py-4 pb-6 sm:px-7 sm:py-6" onSubmit={handleSubmit} noValidate>
-                <div className="grid gap-4 md:grid-cols-2">
-                  {basicFields.map((field) => {
-                    const Icon = field.icon;
-                    return (
-                      <div
-                        key={field.id}
-                        className="rounded-2xl border border-slate-200 bg-white p-3.5 transition-colors focus-within:border-primary/40 focus-within:bg-primary/5 dark:border-slate-700 dark:bg-slate-900/60 dark:focus-within:border-primary/40 dark:focus-within:bg-primary/10"
-                      >
-                        <Label
-                          htmlFor={field.id}
-                          className="text-sm font-semibold text-slate-900 dark:text-slate-100"
-                        >
-                          <span className="inline-flex size-5 items-center justify-center rounded-full bg-slate-900 text-[11px] font-bold text-white dark:bg-slate-200 dark:text-slate-900">
-                            {field.number}
-                          </span>
-                          <span>{field.label}</span>
-                          <Icon className="ml-auto size-4 text-slate-500 dark:text-slate-400" />
-                        </Label>
-                        <p className="mt-2 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 sm:text-xs">
-                          {field.helper}
-                        </p>
-                        <Input
-                          id={field.id}
-                          name={field.id}
-                          type={field.type}
-                          placeholder={field.placeholder}
-                          min={field.type === "number" ? 0 : undefined}
-                          step={field.type === "number" ? 1 : undefined}
-                          className="mt-2 h-11 border-slate-200 bg-slate-50/70 text-sm dark:border-slate-600 dark:bg-slate-800/60"
-                          required
-                        />
+            <form className="lp-form" onSubmit={handleSubmit} noValidate>
+              <div className="lp-form__grid">
+                {basicFields.map((field) => (
+                  <div key={field.id}>
+                    <label className="ts-label" htmlFor={field.id}>
+                      <span className="lp-form__num">{field.number}</span>
+                      {field.label}
+                    </label>
+                    <p className="ts-help" id={`${field.id}-help`}>
+                      {field.helper}
+                    </p>
+                    <input
+                      className="ts-field"
+                      id={field.id}
+                      name={field.id}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      min={field.type === "number" ? 0 : undefined}
+                      step={field.type === "number" ? 1 : undefined}
+                      aria-describedby={`${field.id}-help`}
+                      required
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="lp-form__group">
+                <label className="ts-label" htmlFor="followProof">
+                  <span className="lp-form__num">9</span>
+                  {locale === "id"
+                    ? "Bukti follow Instagram & TikTok Universitas STEKOM + TopLoker.com"
+                    : "Proof of following Universitas STEKOM + TopLoker.com on Instagram & TikTok"}
+                </label>
+                <p className="ts-help">{followProofHint}</p>
+
+                <div className="lp-form__accounts">
+                  {followAccounts.map((account) => (
+                    <div key={account.name} className="lp-account">
+                      <div className="lp-account__head">
+                        <p className="ts-profile__name">{account.name}</p>
+                        <span className="ts-tag ts-tag--kuning">
+                          {locale === "id" ? "Wajib follow · 2 akun" : "Must follow · 2 accounts"}
+                        </span>
                       </div>
-                    );
-                  })}
+                      <div className="lp-account__row">
+                        <span>TikTok</span>
+                        <b>{account.tiktokHandle}</b>
+                      </div>
+                      <div className="lp-account__row">
+                        <span>Instagram</span>
+                        <b>{account.instagramHandle}</b>
+                      </div>
+                      <div className="lp-account__links">
+                        <a className="ts-btn ts-btn--secondary ts-btn--sm" href={account.instagram} target="_blank" rel="noreferrer">
+                          Instagram
+                        </a>
+                        <a className="ts-btn ts-btn--secondary ts-btn--sm" href={account.tiktok} target="_blank" rel="noreferrer">
+                          TikTok
+                        </a>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="rounded-2xl border-2 border-dashed border-rose-200 bg-rose-50/50 p-4 dark:border-rose-400/40 dark:bg-rose-500/10">
-                  <Label
-                    htmlFor="followProof"
-                    className="text-sm font-semibold text-slate-900 dark:text-slate-100"
-                  >
-                    <span className="inline-flex size-5 items-center justify-center rounded-full bg-rose-600 text-[11px] font-bold text-white">
-                      9
-                    </span>
-                    Bukti Follow Instagram & TikTok Universitas STEKOM + TopLoker.com
-                    <ImageUp className="ml-auto size-4 text-rose-600 dark:text-rose-300" />
-                  </Label>
-                  <p className="mt-2 text-[11px] leading-relaxed text-slate-600 dark:text-slate-300 sm:text-xs">
-                    {followProofHint}
-                  </p>
-                  <p className="mt-1 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 sm:text-xs">
+                <label className="lp-drop" aria-invalid={proofError ? true : undefined}>
+                  <Icon name="kamera" size="lg" />
+                  <span className="ts-small">
+                    <b className="text-[var(--link)]">{locale === "id" ? "Pilih screenshot" : "Choose screenshots"}</b>
+                    {" · "}
                     {followProofMultiHint}
-                  </p>
-                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                    {followAccounts.map((account) => (
-                      <div
-                        key={account.name}
-                        className="flex h-full flex-col rounded-2xl border border-rose-100 bg-white/90 p-4 text-xs text-slate-700 shadow-sm dark:border-rose-400/30 dark:bg-slate-900/60 dark:text-slate-200"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                              {account.name}
-                            </p>
-                            <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-rose-600/80 dark:text-rose-300/90">
-                              Wajib Follow
-                            </p>
-                          </div>
-                          <span className="rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-rose-700 dark:border-rose-400/30 dark:bg-rose-500/10 dark:text-rose-200">
-                            2 akun
-                          </span>
-                        </div>
-
-                        <div className="mt-3 grid gap-2">
-                          <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900/70">
-                            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                              TikTok
-                            </span>
-                            <span className="text-xs font-semibold text-slate-800 dark:text-slate-100">
-                              {account.tiktokHandle}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900/70">
-                            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                              Instagram
-                            </span>
-                            <span className="text-xs font-semibold text-slate-800 dark:text-slate-100">
-                              {account.instagramHandle}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                          <Button
-                            asChild
-                            size="sm"
-                            className="h-9 w-full rounded-full px-3 text-xs"
-                          >
-                            <a href={account.instagram} target="_blank" rel="noreferrer">
-                              Instagram
-                            </a>
-                          </Button>
-                          <Button
-                            asChild
-                            size="sm"
-                            className="h-9 w-full rounded-full bg-slate-950 px-3 text-xs text-white hover:bg-slate-900"
-                          >
-                            <a href={account.tiktok} target="_blank" rel="noreferrer">
-                              TikTok
-                            </a>
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <Input
+                  </span>
+                  <input
                     id="followProof"
                     name="followProof"
                     type="file"
                     accept="image/*"
                     multiple
                     onChange={handleProofChange}
-                    className="mt-3 h-auto border-0 bg-transparent p-0 shadow-none file:mr-3 file:rounded-full file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800 dark:file:bg-primary dark:hover:file:bg-primary/90"
+                    className="sr-only"
                   />
+                </label>
 
-                  {proofFiles.length > 0 && (
-                    <div className="mt-3 rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-900/60">
-                      <div className="mb-2 flex items-center justify-between gap-2">
-                        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                          {selectedFilesLabel} ({proofFiles.length})
-                        </p>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={clearProofFiles}
-                          className="h-8 px-2.5 text-xs text-rose-700 hover:bg-rose-50 hover:text-rose-800 dark:text-rose-300 dark:hover:bg-rose-900/30"
-                        >
-                          <Trash2 className="size-3.5" />
-                          {removeAllFilesLabel}
-                        </Button>
-                      </div>
-
-                      <ul className="space-y-2">
-                        {proofFiles.map((file) => (
-                          <li
-                            key={`${file.name}-${file.size}-${file.lastModified}`}
-                            className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-2 dark:border-slate-700 dark:bg-slate-800/70"
-                          >
-                            <div className="min-w-0 flex-1">
-                              <p className="truncate text-xs font-medium text-slate-700 dark:text-slate-200">
-                                {file.name}
-                              </p>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                                {formatFileSize(file.size)}
-                              </p>
-                            </div>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon-xs"
-                              onClick={() => removeProofFile(file)}
-                              className="text-slate-500 hover:bg-rose-50 hover:text-rose-700 dark:text-slate-300 dark:hover:bg-rose-900/30 dark:hover:text-rose-300"
-                              aria-label={`${removeSingleFileLabel}: ${file.name}`}
-                            >
-                              <X className="size-3.5" />
-                            </Button>
-                          </li>
-                        ))}
-                      </ul>
+                {proofFiles.length > 0 && (
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="ts-small">
+                        {selectedFilesLabel} ({proofFiles.length})
+                      </p>
+                      <button type="button" className="ts-btn ts-btn--ghost" onClick={clearProofFiles}>
+                        {removeAllFilesLabel}
+                      </button>
                     </div>
-                  )}
-
-                  {proofError && (
-                    <p className="mt-2 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-2 text-xs font-medium text-rose-700 dark:border-rose-500/40 dark:bg-rose-900/30 dark:text-rose-200">
-                      {proofError}
-                    </p>
-                  )}
-                </div>
-
-                <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 dark:border-slate-700 dark:bg-slate-800/55">
-                  <Label
-                    htmlFor="motivation"
-                    className="text-sm font-semibold text-slate-900 dark:text-slate-100"
-                  >
-                    <span className="inline-flex size-5 items-center justify-center rounded-full bg-slate-900 text-[11px] font-bold text-white dark:bg-slate-200 dark:text-slate-900">
-                      10
-                    </span>
-                    Motivasi Bergabung
-                  </Label>
-                  <p className="mt-2 text-[11px] leading-relaxed text-slate-600 dark:text-slate-300 sm:text-xs">
-                    {locale === "id"
-                      ? "Apa motivasimu bergabung dalam pelatihan Content Creator oleh Duta Teladan Universitas STEKOM?"
-                      : "What is your motivation to join this content creator training by Duta Teladan Universitas STEKOM?"}
-                  </p>
-                  <Textarea
-                    id="motivation"
-                    name="motivation"
-                    rows={6}
-                    placeholder={
-                      locale === "id"
-                        ? "Ceritakan motivasi kamu bergabung dalam pelatihan ini"
-                        : "Tell us your motivation to join this training"
-                    }
-                    className="mt-3 min-h-32 border-slate-200 bg-white dark:border-slate-600 dark:bg-slate-900/60"
-                    required
-                  />
-
-                  <div className="mt-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-[11px] text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300 sm:text-xs">
-                    <p className="font-semibold">{motivationHintTitle}</p>
-                    <ul className="mt-1 list-disc space-y-1 pl-4">
-                      {motivationHints.map((hint) => (
-                        <li key={hint}>{hint}</li>
+                    <ul className="lp-files">
+                      {proofFiles.map((file) => (
+                        <li key={`${file.name}-${file.size}-${file.lastModified}`}>
+                          <div>
+                            <p>{file.name}</p>
+                            <p className="ts-caption">{formatFileSize(file.size)}</p>
+                          </div>
+                          <button
+                            type="button"
+                            className="lp-icon-btn"
+                            onClick={() => removeProofFile(file)}
+                            aria-label={`${removeSingleFileLabel}: ${file.name}`}
+                          >
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M6 6l12 12M18 6 6 18" />
+                            </svg>
+                          </button>
+                        </li>
                       ))}
                     </ul>
                   </div>
+                )}
+
+                {proofError && (
+                  <p className="lp-notice lp-notice--error mt-3" role="alert">
+                    {proofError}
+                  </p>
+                )}
+              </div>
+
+              <div className="lp-form__group">
+                <label className="ts-label" htmlFor="motivation">
+                  <span className="lp-form__num">10</span>
+                  {locale === "id" ? "Motivasi bergabung" : "Why you want to join"}
+                </label>
+                <p className="ts-help" id="motivation-help">
+                  {locale === "id"
+                    ? "Apa motivasimu bergabung dalam pelatihan content creator Duta Teladan Universitas STEKOM?"
+                    : "What is your motivation to join this content creator training by Duta Teladan Universitas STEKOM?"}
+                </p>
+                <textarea
+                  className="ts-field"
+                  id="motivation"
+                  name="motivation"
+                  rows={6}
+                  placeholder={
+                    locale === "id"
+                      ? "Ceritakan motivasi kamu bergabung dalam pelatihan ini"
+                      : "Tell us your motivation to join this training"
+                  }
+                  aria-describedby="motivation-help"
+                  required
+                />
+                <div className="ts-help">
+                  <p className="m-0 font-bold">{motivationHintTitle}</p>
+                  <ul className="mt-1 list-disc space-y-1 pl-5">
+                    {motivationHints.map((hint) => (
+                      <li key={hint}>{hint}</li>
+                    ))}
+                  </ul>
                 </div>
+              </div>
 
-                <div className="sticky bottom-0 rounded-2xl border border-slate-200 bg-white/95 p-3 backdrop-blur sm:static sm:bg-white sm:p-4 dark:border-slate-700 dark:bg-slate-900/95 sm:dark:bg-slate-900/70">
-                  {submitError && (
-                    <p className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-medium text-rose-700 dark:border-rose-500/40 dark:bg-rose-900/30 dark:text-rose-200">
-                      {submitError}
-                    </p>
-                  )}
+              <div className="lp-form__foot">
+                {submitError && (
+                  <p className="lp-notice lp-notice--error" role="alert">
+                    {submitError}
+                  </p>
+                )}
 
-                  {isSubmitted && (
-                    <p className="mb-3 flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 dark:border-emerald-500/40 dark:bg-emerald-950/30 dark:text-emerald-200">
-                      <CheckCircle2 className="size-4" />
-                      {submitSuccess}
-                    </p>
-                  )}
+                {isSubmitted && (
+                  <p className="lp-notice lp-notice--ok" role="status">
+                    <Icon name="sertifikat" size="md" />
+                    {submitSuccess}
+                  </p>
+                )}
 
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400 sm:text-xs">{formHint}</p>
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="h-11 w-full rounded-full sm:w-auto sm:min-w-56"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? submittingLabel : submitLabel}
-                    </Button>
-                  </div>
+                <div className="lp-form__foot-row">
+                  <p className="ts-caption">{responseHint}</p>
+                  <button type="submit" className="ts-btn ts-btn--primary" disabled={isSubmitting}>
+                    {isSubmitting ? submittingLabel : submitLabel}
+                    {!isSubmitting && <ArrowIcon />}
+                  </button>
                 </div>
-              </form>
-            </div>
-          </DialogContent>
-        </Dialog>
+              </div>
+            </form>
+          </div>
+        </DialogContent>
+      </Dialog>
 
-        <p className="flex items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
-          <Clock3 className="size-3.5" />
-          {responseHint}
-        </p>
-      </div>
+      <p className="ts-caption lp-register__hint">
+        <Icon name="pesan" size="sm" />
+        {responseHint}
+      </p>
     </div>
   );
 }

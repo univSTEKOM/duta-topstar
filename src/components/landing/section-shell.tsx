@@ -1,51 +1,59 @@
 import { cn } from "@/lib/utils";
+import { Pita } from "@/components/brand/mark";
 
 interface SectionShellProps {
   id: string;
   eyebrow?: string;
   title?: string;
   description?: string;
+  /** surface-soft band; sections alternate */
+  soft?: boolean;
+  centered?: boolean;
   className?: string;
-  contentClassName?: string;
   children: React.ReactNode;
 }
 
+interface SectionHeadProps {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  centered?: boolean;
+}
+
+export function SectionHead({ eyebrow, title, description, centered = false }: SectionHeadProps) {
+  return (
+    <header className={cn("ts-section-head", centered && "ts-section-head--center")}>
+      {eyebrow && (
+        <p className="ts-overline">
+          <Pita />
+          {eyebrow}
+        </p>
+      )}
+      {title && <h2 className="ts-h1">{title}</h2>}
+      {description && <p className="ts-lead">{description}</p>}
+    </header>
+  );
+}
+
+/** Topstar section: overline with the pita, h1, optional lead, then content space-8 below. */
 export function SectionShell({
   id,
   eyebrow,
   title,
   description,
+  soft = false,
+  centered = false,
   className,
-  contentClassName,
   children,
 }: SectionShellProps) {
   return (
-    <section
-      id={id}
-      className={cn("relative scroll-mt-24 py-16 sm:scroll-mt-28 sm:py-22 lg:py-28", className)}
-    >
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-7 lg:px-10">
+    <section id={id} className={cn("ts-section", soft && "ts-section--soft", className)}>
+      <div className="ts-container">
         {(eyebrow || title || description) && (
-          <header className="max-w-3xl space-y-3 sm:space-y-4">
-            {eyebrow && (
-              <p className="text-xs font-semibold tracking-[0.14em] text-primary uppercase sm:text-sm">
-                {eyebrow}
-              </p>
-            )}
-            {title && (
-              <h2 className="text-balance text-2xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-slate-100">
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className="text-pretty text-sm leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300">
-                {description}
-              </p>
-            )}
-          </header>
+          <SectionHead eyebrow={eyebrow} title={title} description={description} centered={centered} />
         )}
 
-        <div className={cn("mt-8 sm:mt-10", contentClassName)}>{children}</div>
+        {children}
       </div>
     </section>
   );

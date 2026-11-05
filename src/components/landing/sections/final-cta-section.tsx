@@ -4,8 +4,7 @@ import { t } from "@/data/program-content";
 import type { Locale, ProgramContent } from "@/types/program";
 import { PlayTriangle } from "@/components/brand/icons";
 import { FadeInUp } from "@/components/landing/motion";
-import { ClientOnly } from "@/components/ui/client-only";
-import { RegistrationForm } from "@/components/landing/registration-form";
+import { RegistrationPanel } from "@/components/landing/registration-form";
 
 interface FinalCtaSectionProps {
   locale: Locale;
@@ -44,16 +43,8 @@ export function FinalCtaSection({
               </ul>
             </div>
 
-            <div id="registration-form" className="relative z-1 scroll-mt-(--nav-height)">
-              <ClientOnly
-                fallback={
-                  <div className="lp-register">
-                    <p className="ts-small">Memuat formulir pendaftaran…</p>
-                  </div>
-                }
-              >
-                <RegistrationForm locale={locale} formContent={formContent} />
-              </ClientOnly>
+            <div className="relative z-1">
+              <RegistrationPanel locale={locale} formContent={formContent} />
             </div>
           </div>
         </FadeInUp>

@@ -2,7 +2,8 @@
 
 import { t } from "@/data/program-content";
 import type { Locale, ProgramContent } from "@/types/program";
-import { openRegistration } from "@/lib/registration";
+import Link from "next/link";
+import { REGISTER_PATH } from "@/lib/registration";
 import { ArrowIcon } from "@/components/brand/icons";
 import { FadeInUp } from "@/components/landing/motion";
 import { SectionShell } from "@/components/landing/section-shell";
@@ -43,10 +44,10 @@ export function TimelineSection({ locale, content }: TimelineSectionProps) {
               : "Free and works on your phone. Selected applicants are contacted on WhatsApp for selection."}
           </p>
         </div>
-        <a className="ts-btn ts-btn--primary" href="#daftar" onClick={openRegistration}>
+        <Link className="ts-btn ts-btn--primary" href={REGISTER_PATH}>
           {locale === "id" ? "Mulai tahap 1" : "Start step 1"}
           <ArrowIcon />
-        </a>
+        </Link>
       </FadeInUp>
     </SectionShell>
   );

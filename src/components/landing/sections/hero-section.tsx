@@ -7,7 +7,8 @@ import type { GalleryItem, Locale, ProgramContent } from "@/types/program";
 import { Pita } from "@/components/brand/mark";
 import { MarkPlayer } from "@/components/brand/mark-player";
 import { ArrowIcon, PlayTriangle } from "@/components/brand/icons";
-import { openRegistration } from "@/lib/registration";
+import Link from "next/link";
+import { REGISTER_PATH } from "@/lib/registration";
 import { FadeInUp } from "@/components/landing/motion";
 
 interface HeroSectionProps {
@@ -32,10 +33,10 @@ export function HeroSection({ locale, content, galleryItems }: HeroSectionProps)
             <p className="ts-lead">{t(content.subtitle, locale)}</p>
 
             <div className="ts-hero__actions">
-              <a className="ts-btn ts-btn--accent ts-btn--lg" href="#daftar" onClick={openRegistration}>
+              <Link className="ts-btn ts-btn--accent ts-btn--lg" href={REGISTER_PATH}>
                 {t(content.primaryCta, locale)}
                 <ArrowIcon />
-              </a>
+              </Link>
               <a className="ts-btn ts-btn--secondary ts-btn--lg" href="#tentang">
                 {t(content.secondaryCta, locale)}
               </a>

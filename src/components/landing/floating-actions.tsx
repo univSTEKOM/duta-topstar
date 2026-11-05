@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 import { contact } from "@/data/program-content";
 import { cn } from "@/lib/utils";
-import { openRegistration } from "@/lib/registration";
+import Link from "next/link";
+import { REGISTER_PATH } from "@/lib/registration";
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 448 512" aria-hidden="true" focusable="false">
@@ -52,9 +53,9 @@ export function FloatingActions({ registerTitle, registerHint, registerLabel }: 
           {registerTitle}
           <span>{registerHint}</span>
         </p>
-        <a className="ts-btn ts-btn--accent ts-btn--sm" href="#daftar" onClick={openRegistration}>
+        <Link className="ts-btn ts-btn--accent ts-btn--sm" href={REGISTER_PATH}>
           {registerLabel}
-        </a>
+        </Link>
       </div>
 
       <a

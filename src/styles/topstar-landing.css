@@ -255,13 +255,22 @@
     .lp-faq__aside .lp-help { order: 2; }
   }
 
-  /* Dialog form */
-  .lp-dialog { background: var(--surface); color: var(--ink); }
-  .lp-dialog__head { padding: var(--space-8) var(--space-8) var(--space-6); border-bottom: 1px solid var(--line); background: var(--surface-raised); }
-  .lp-dialog__title { margin: var(--space-2) 0 0; letter-spacing: -.02em; }
-  .lp-dialog__facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-4); }
-  .lp-dialog__facts div { padding: var(--space-3); border-radius: var(--radius-md); background: var(--surface-soft); }
-  .lp-dialog__facts b { display: block; font-size: 20px; line-height: 1.1; font-weight: 900; letter-spacing: -.02em; color: var(--biru); }
+  /* ---------- /register: standalone form page ---------- */
+  .lp-regmain { padding-top: var(--space-12); }
+  .lp-regnav { justify-content: space-between; }
+  .lp-regpage {
+    max-width: 960px; margin: 0 auto; overflow: clip; background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+  }
+  .lp-regpage__loading { margin: 0; padding: var(--space-8); }
+  .lp-regpage__done { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); padding: var(--space-20) var(--space-8); text-align: center; }
+  .lp-regpage__done .ts-h2, .lp-regpage__done .ts-lead { margin: 0; }
+  .lp-regpage__done-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin-top: var(--space-4); }
+  .lp-regpage__head { padding: var(--space-8) var(--space-8) var(--space-6); border-bottom: 1px solid var(--line); background: var(--surface-raised); }
+  .lp-regpage__title { margin: var(--space-2) 0 0; }
+  .lp-regpage__facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-top: var(--space-4); }
+  .lp-regpage__facts div { padding: var(--space-3); border-radius: var(--radius-md); background: var(--surface-soft); }
+  .lp-regpage__facts b { display: block; font-size: 20px; line-height: 1.1; font-weight: 900; letter-spacing: -.02em; color: var(--biru); }
   .lp-form { display: flex; flex-direction: column; gap: var(--space-6); padding: var(--space-6) var(--space-8) var(--space-8); }
   .lp-form__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4) var(--space-6); }
   .lp-form .ts-label { display: flex; align-items: center; gap: var(--space-2); }
@@ -300,10 +309,14 @@
   }
   .lp-form__foot-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
   @media (max-width: 767px) {
-    .lp-dialog__head { padding: 56px var(--space-4) var(--space-4); }
-    .lp-dialog__facts { gap: var(--space-2); }
-    .lp-dialog__facts div { padding: var(--space-2) var(--space-3); }
-    .lp-dialog__facts b { font-size: 17px; }
+    .lp-regmain { padding-top: var(--space-6); }
+    .lp-regpage { border-radius: var(--radius-lg); }
+    .lp-regpage__head { padding: var(--space-6) var(--space-4) var(--space-4); }
+    .lp-regpage__done { padding: var(--space-12) var(--space-4); }
+    .lp-regpage__done-actions { flex-direction: column; align-self: stretch; }
+    .lp-regpage__facts { gap: var(--space-2); }
+    .lp-regpage__facts div { padding: var(--space-2) var(--space-3); }
+    .lp-regpage__facts b { font-size: 17px; }
     .lp-form { padding: var(--space-4) var(--space-4) var(--space-6); }
     .lp-form__grid, .lp-form__accounts { grid-template-columns: 1fr; }
     .lp-form__group { padding: var(--space-4); }

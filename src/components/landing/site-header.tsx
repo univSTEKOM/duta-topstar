@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 import { t } from "@/data/program-content";
 import { cn } from "@/lib/utils";
-import { openRegistration } from "@/lib/registration";
+import Link from "next/link";
+import { REGISTER_PATH } from "@/lib/registration";
 import type { Locale, LocalizedText, NavItem } from "@/types/program";
 import { Mark } from "@/components/brand/mark";
 import { ThemeToggle } from "@/components/landing/theme-toggle";
@@ -113,9 +114,9 @@ export function SiteHeader({ locale, brand, navItems }: SiteHeaderProps) {
 
           <div className="lp-nav__actions">
             <ThemeToggle />
-            <a className="ts-btn ts-btn--primary ts-btn--sm" href="#daftar" onClick={openRegistration}>
+            <Link className="ts-btn ts-btn--primary ts-btn--sm" href={REGISTER_PATH}>
               {registerLabel}
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setIsMenuOpen((prev) => !prev)}
@@ -158,16 +159,13 @@ export function SiteHeader({ locale, brand, navItems }: SiteHeaderProps) {
             </li>
           ))}
         </ul>
-        <a
+        <Link
           className="ts-btn ts-btn--accent ts-btn--lg"
-          href="#daftar"
-          onClick={(event) => {
-            setIsMenuOpen(false);
-            openRegistration(event);
-          }}
+          href={REGISTER_PATH}
+          onClick={() => setIsMenuOpen(false)}
         >
           {locale === "id" ? "Daftar sekarang" : "Register now"}
-        </a>
+        </Link>
       </nav>
     </>
   );

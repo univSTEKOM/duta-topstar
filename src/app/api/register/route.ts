@@ -262,6 +262,7 @@ async function appendToSheet(
   sheets: SheetsClient,
   payload: RegistrationPayload,
   proofUrls: string[],
+  submittedAt: string,
 ) {
   const spreadsheetId = getEnv("GOOGLE_SHEETS_SPREADSHEET_ID");
   const sheetName = await resolveSheetName(sheets, spreadsheetId);
@@ -274,7 +275,7 @@ async function appendToSheet(
     requestBody: {
       values: [
         [
-          getSubmittedAtUtc7(),
+          submittedAt,
           payload.fullName,
           payload.school,
           payload.email,
@@ -289,6 +290,58 @@ async function appendToSheet(
       ],
     },
   });
+}
+
+const PMB_TRACKING_URL =
+  process.env.PMB_TRACKING_URL || "https://pmb.stekom.ac.id/api/tracking/submit-direct";
+const PMB_TIMEOUT_MS = 8000;
+
+// Mirrors the registration to the PMB tracking API. Best effort: the applicant's
+// submission is already saved to Sheets, so a PMB failure is logged, not surfaced.
+async function sendToPmbTracking(
+  request: Request,
+  payload: RegistrationPayload,
+  proofUrls: string[],
+  submittedAt: string,
+) {
+  const origin = new URL(request.url).origin;
+  const sourcePage = (request.headers.get("referer") || `${origin}/register`).slice(0, 255);
+  const phone = payload.whatsapp.replace(/[^\d+]/g, "").slice(0, 20);
+
+  try {
+    const response = await fetch(PMB_TRACKING_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        source_page: sourcePage,
+        nama: payload.fullName.slice(0, 255),
+        email: payload.email.slice(0, 255),
+        phone,
+        data: {
+          program: "Duta Teladan Universitas STEKOM - Topstar",
+          submitted_at: submittedAt,
+          full_name: payload.fullName,
+          school: payload.school,
+          email: payload.email,
+          whatsapp: payload.whatsapp,
+          tiktok: payload.tiktok,
+          tiktok_followers: Number(payload.tiktokFollowers),
+          instagram: payload.instagram,
+          instagram_followers: Number(payload.instagramFollowers),
+          motivation: payload.motivation,
+          follow_proof_urls: proofUrls,
+        },
+      }),
+      signal: AbortSignal.timeout(PMB_TIMEOUT_MS),
+    });
+
+    if (!response.ok) {
+      const body = await response.text().catch(() => "");
+      console.error(`[register] PMB tracking responded ${response.status}: ${body.slice(0, 500)}`);
+    }
+  } catch (error) {
+    console.error(`[register] PMB tracking failed: ${toMessage(error)}`);
+  }
 }
 
 function toMessage(error: unknown): string {
@@ -338,11 +391,15 @@ export async function POST(request: Request) {
       throw new Error(`Drive upload failed: ${toMessage(error)}`);
     }
 
+    const submittedAt = getSubmittedAtUtc7();
+
     try {
-      await appendToSheet(sheets, payload, proofUrls);
+      await appendToSheet(sheets, payload, proofUrls, submittedAt);
     } catch (error) {
       throw new Error(`Sheets append failed: ${toMessage(error)}`);
     }
+
+    await sendToPmbTracking(request, payload, proofUrls, submittedAt);
 
     return NextResponse.json({ success: true });
   } catch (error) {
